@@ -8,8 +8,8 @@ const pathCharacter = '*';
 class Field {
     constructor(fieldArray){
         this.field = fieldArray;
-        this._x_Position = 2;
-        this._y_Position = 2;
+        this._x_Position = 0;
+        this._y_Position = 0;
     }
     
     get x_Position() {
@@ -19,15 +19,19 @@ class Field {
     set x_Position(input) {
         // get current value
         let position = this.x_Position;
-        // increment or decrement current value based on input: W = -1 (up) || s = +1 (down)
+        // increment or decrement current value based on input: a = -1 (left) || d = +1 (right)
         if (input === -1) position += input; // don't use -= and value - -1 = value +1 
         if (input === 1) position += input;
         // check if new postion will put player out of bounds, else update y_position
-        if (position < 0 || position > this.field[0].length) {
+        if (position < 0 || position >= this.field[0].length) {
             console.log('invalid move: player out of bounds')
-                    return this.move();
+                    setTimeout(() =>{return this.move()}, 2000)
         } else {
-            return this._x_Position = position;     
+            this._x_Position = position;
+            this.checkForHole();
+            this.winOrLose();
+            this.updatePathCharacter();     
+            return this.move();
         } 
     }
 
@@ -42,27 +46,27 @@ class Field {
         if (input === -1) position += input; // don't use -= and value - -1 = value +1 
         if (input === 1) position += input;
         // check if new postion will put player out of bounds, else update y_position
-        if (position < 0 || position > this.field.length) {
+        if (position < 0 || position >= this.field.length) {
             console.log('invalid move: player out of bounds')
-                    return this.move();
+                setTimeout(() =>{return this.move()}, 2000);
         } else {
-            return this._y_Position = position;     
+            this._y_Position = position;
+            this.checkForHole();
+            this.winOrLose();
+            this.updatePathCharacter();
+            return this.move();     
         }   
     }
 
     print() {
-    for (let row in this.field){
-      console.log(this.field[row].join(''));
-        }
+        for (let row in this.field){
+            console.log(this.field[row].join(''));
+            }
     }
 
-    // move method:
-    // takes argument of key stroke - wasd 
-    // checks if teh move will take the player out of bound
-    // moves character 
-    // replaces previous postion with pathCharacter * 
-    // updates new postion with feildCharacter 
     move() {
+        console.clear();
+        this.print();
         // user enters keystroke
         let keystroke = prompt('Please enter your move - w, a, s, d: ');
         // keystroke validation
@@ -81,44 +85,47 @@ class Field {
                 break;
             case 'a':
                 this.x_Position = -1;
-                console.log(this.x_Position);
                 break;
             case 'd':
                 this.x_Position = 1;
-                console.log(this.x_Position);
                 break;          
             default: 
                 throw new Error('hmmm something went wrong, please try again. Error message: end of switch statement reached with no valid move');
         }
-
         // starting move is feild[0][0]
         // w = feild[-1][0]
         // s = feild[+1][0]
         // a = feild[0][-1]
         // d = feild[0][+1]
+    }
+    
 
-
+    updatePathCharacter () {
+        this.field[this.y_Position][this.x_Position] = pathCharacter;
     }
 
+    checkForHole() { 
+        if (this.field[this.y_Position][this.x_Position] === hole){
+            console.log('You fell down a hole, please look where you are going!');
+            return process.exit(); 
+        }
+    }
 
-    // winOrLose method
-    // checks if the character has found hat or moved into hole
    winOrLose() {
+    if (this.field[this.y_Position][this.x_Position] === hat) {
+        console.log('Congratulations, you\'ve found your hat!')
+        return process.exit();
+    }
 
    }
 
-   // play game method
-   // loops game until win or lose is true
-
   
 }
-
-
 
 // class creation
  const game = new Field([['*', '░', 'O'],
  ['░', 'O', '░'],
  ['░', '^', '░'],]);
 
-game.print();
+
 game.move();
