@@ -6,8 +6,8 @@ const fieldCharacter = '░';
 const pathCharacter = '*';
 
 class Field {
-    constructor(fieldArray){
-        this.field = fieldArray;
+    constructor(){
+        this.field = [];
         this._x_Position = 0;
         this._y_Position = 0;
         this.win = false;
@@ -45,9 +45,9 @@ class Field {
         }
 
         // add holes 
-
+        // caculate number of holes to add by converting percentage param to no. of holes. 
         let numberOfHoles = Math.floor(((height * width) / 100) * percentageHoleCoverage)
-
+        // add holes to random positions
         for (let i = numberOfHoles; i > 0; i--) {
             let y_Axis = Math.floor(Math.random() * height);
             let x_Axis = Math.floor(Math.random() * width);
@@ -77,8 +77,7 @@ class Field {
                 };
 
             } while  (hatPlaced = false);
-        
-        console.log(newMap, numberOfHoles);    
+          
         return newMap;
     }
 
@@ -194,9 +193,10 @@ class Field {
    }
 
    run() {
-    let newMapParams = prompt('Please enter height, width and percentage hole cooverage (num: 1 - 50) seperated by spaces: ')
+    let newMapParams = prompt('Please enter height, width and percentage hole cooverage % (num: 1 - 40) seperated by spaces: ')
     newMapParams = newMapParams.split(' ');
     this.field = Field.generateMap(newMapParams[0], newMapParams[1], newMapParams[2]);
+    this.clearConsole();
       do {
           this.move();
           this.winOrLose();
@@ -214,10 +214,8 @@ class Field {
     // d = feild[0][+1]
 
 // class creation
- const game = new Field([['*', '░', 'O'],
- ['░', 'O', '░'],
- ['░', '^', '░'],]);
+ const game = new Field();
 
-
+ 
 game.run();
-//Field.generateMap(5, 5, 40);
+
