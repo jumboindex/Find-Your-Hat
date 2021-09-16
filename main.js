@@ -29,6 +29,59 @@ class Field {
         this._y_Position = move       
     }
 
+    static generateMap (height = 4, width = 4, percentageHoleCoverage = 50) {
+        
+        if (percentageHoleCoverage > 50 || percentageHoleCoverage <= 0) return console.log('Error: the map generated contains either too many or not enough holes.');
+
+        // generate empy map
+        let newMap = [];
+
+        for (let i = height; i > 0; i--) {
+            let newArr = [];
+            for (let y = width; y > 0; y-- ) {
+                newArr.push(fieldCharacter);
+            }
+            newMap.push(newArr);
+        }
+
+        // add holes 
+
+        let numberOfHoles = Math.floor(((height * width) / 100) * percentageHoleCoverage)
+
+        for (let i = numberOfHoles; i > 0; i--) {
+            let y_Axis = Math.floor(Math.random() * height);
+            let x_Axis = Math.floor(Math.random() * width);
+
+            if (newMap[y_Axis][x_Axis] === hole) {
+                i++;
+                continue;
+            } else {
+                newMap[y_Axis][x_Axis] = hole;
+            }
+        }
+
+        // add path character to start position
+        newMap[0][0] = pathCharacter;
+        
+        // add hat to map
+        let hatPlaced = false;
+        
+        do {
+            let hat_Y_Axis = Math.floor(Math.random() * height);
+            let hat_X_Axis = Math.floor(Math.random() * width);
+
+            if (hat_X_Axis === 0 && hat_Y_Axis === 0) continue;
+            else {
+                newMap[hat_Y_Axis][hat_X_Axis] = hat;
+                hatPlaced = true 
+                };
+
+            } while  (hatPlaced = false);
+        
+        console.log(newMap, numberOfHoles);    
+        return newMap;
+    }
+
     print() {
         for (let row in this.field){
             console.log(this.field[row].join(''));
@@ -132,6 +185,8 @@ class Field {
 
    playAgain () {
        this.win = false;
+       this.x_Position = 0;
+       this.y_Position = 0;
        let anotherGo = prompt('would you like to play again? yes / no ');
        if (anotherGo == 'yes') return this.run();
        else if (anotherGo == 'no') process.exit();
@@ -139,6 +194,9 @@ class Field {
    }
 
    run() {
+    let newMapParams = prompt('Please enter height, width and percentage hole cooverage (num: 1 - 50) seperated by spaces: ')
+    newMapParams = newMapParams.split(' ');
+    this.field = Field.generateMap(newMapParams[0], newMapParams[1], newMapParams[2]);
       do {
           this.move();
           this.winOrLose();
@@ -162,3 +220,4 @@ class Field {
 
 
 game.run();
+//Field.generateMap(5, 5, 40);
