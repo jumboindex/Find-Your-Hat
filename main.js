@@ -11,6 +11,10 @@ class Field {
         this._x_Position = 0;
         this._y_Position = 0;
         this.win = false;
+        this.hat_X_Position = 0;
+        this.hat_Y_Position = 0;
+        this.width = '';
+        this.height = '';
     }
     
     get x_Position() {
@@ -32,7 +36,10 @@ class Field {
     static generateMap (height = 4, width = 4, percentageHoleCoverage = 50) {
         
         if (percentageHoleCoverage > 50 || percentageHoleCoverage <= 0) return console.log('Error: the map generated contains either too many or not enough holes.');
-
+        
+        // add width and length values to game instance
+        this.width = width;
+        this.height = height;
         // generate empy map
         let newMap = [];
 
@@ -57,6 +64,8 @@ class Field {
                 continue;
             } else {
                 newMap[y_Axis][x_Axis] = hole;
+                this.hat_X_Position = x_Axis;
+                this.hat_Y_Position = y_Axis;
             }
         }
 
@@ -205,6 +214,37 @@ class Field {
           this.clearConsole();
       } while (!this.win)
    } 
+
+   validateMap () {
+    let map = this.field;
+    let queue = [[this.hat_Y_Position, this.hat_X_Position, 0]]
+
+    do {
+        let counter = 1;
+        let pathFound = false;
+        let positionAbove = [(this.hat_Y_Position --),this.hat_X_Position, counter];
+        let positionBelow = [(this.hat_Y_Position ++),this.hat_X_Position, counter];
+        let positionRight = [this.hat_Y_Position, (this.hat_X_Position ++), counter];
+        let positionLeft = [this.hat_Y_Position ,(this.hat_X_Position --), counter];
+        let arr = [positionAbove, positionBelow, positionRight, positionLeft];
+
+        for (let i = 0; i < arr.length; i++){
+            let possiblePosition = arr[i];
+            if (possiblePosition[0] < 0 || possiblePosition[0] > this.height) continue; // check if Y position is greater than map height
+            if (possiblePosition[1] < 0 || possiblePosition[1] > this.width) continue; // check if X position is greater than map width
+            if (queue.some(queueValue => possiblePosition === queueValue)) continue; // check if value exisits in queue 
+            if (map[possiblePosition[0]][possiblePosition[1]] === hole ) continue; // check if grid position contains a hole 
+            queue.push(possiblePosition);
+            if (map[possiblePosition[0]][possiblePosition[1]] === pathCharacter){
+                pathFound = true;
+                break;
+            } 
+        }
+
+    } while (pathFound === false || counter > 100);
+
+   }
+
 }
 
 // starting move is feild[0][0]
