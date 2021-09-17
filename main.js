@@ -207,10 +207,11 @@ class Field {
 
     let newMapParams = prompt('Please enter height, width and percentage hole coverage % (num: 1 - 40) seperated by spaces: ').split(' ')
     // map generation and validation loop
-    do {
+    let mapValid = false;
+    do  {
     this.field = this.generateMap(newMapParams[0], newMapParams[1], newMapParams[2]);
-    this.validateMap();
-    } while (!this.validateMap());
+    mapValid = this.validateMap();
+    } while (mapValid === false);
     
     // main game loop
     let startgame = prompt('would you like to start: yes/no ')
@@ -228,7 +229,7 @@ class Field {
 
    validateMap () {
 
-    let map = this.field; 
+    let map = Array.from(this.field); 
     let queue = [[this.hat_Y_Position, this.hat_X_Position, 0]]; // create queue of possible coordinates
     let maximumNumberOfMoves = (this.height * this.width) - this.numberOfHoles; // stoping condition for loop below
     let counter = 1; // check if outer loop exicution exceeds maximum number of moves
@@ -244,9 +245,10 @@ class Field {
         
         for (let i = 0; i < arr.length; i++){
             let possiblePosition = arr[i];
+            
             if (possiblePosition[0] < 0 || possiblePosition[0] >= this.height) continue; // check if Y position is greater than map height
             else if (possiblePosition[1] < 0 || possiblePosition[1] >= this.width) continue; // check if X position is greater than map width
-            else if (queue.some(queueValue => possiblePosition[0] === queueValue[0]) && queue.some(queueValue => possiblePosition[1] === queueValue[1])) continue; // check if value exisits in queue 
+            else if (queue.some(queueValue => possiblePosition[0] === queueValue[0] && possiblePosition[1] === queueValue[1])) continue; // check if value exisits in queue
             else if (map[possiblePosition[0]][possiblePosition[1]] === hole ) continue; // check if grid position contains a hole 
             else {
                 possiblePosition[2] = (queue[queueCounter][2] + 1); // increment counter queue = [[y, x, counter][y, x, counter][y, x, counter]] and add to queue
@@ -259,11 +261,11 @@ class Field {
         }
         counter ++;
         queueCounter++;  
-    } while ( counter < maximumNumberOfMoves && pathFound == false && queue.length > queueCounter);
+    } while (pathFound == false && queue.length > queueCounter);
 
     if (pathFound === true && queueCounter > this.width) {
-        
-      /*   for (let i = 0; i < queue.length; i++ ){
+        /* for (let i = 1; i < queue.length; i++ ){
+            console.clear();
             let y = queue[i][0];
             let x = queue[i][1];
             map[y][x] = pathCharacter;
@@ -271,12 +273,9 @@ class Field {
                 console.log(map[row].join(''));
                 }    
         } */
-        console.log('does the first loop finish');
-      
         return true;
     } 
     else {
-        console.log('return false for map')
         return false;
     } 
 
