@@ -21,7 +21,8 @@ This is simple terminal game where the objective is to navigate a maze and find 
 
 The maps are randomly generated via user input (mapHeight, mapWidth, percentageWholeCoverage) and are navigated using w, a, s, d. Maps are validated using a path finding algorithm which follows the steps listed below:
 
-  1. Create a list of the four adjacent cells around the hat, with a counter variable of the current element's counter variable + 1 i.e ((2,8,1),(3,7,1),(4,8,1),(3,9,1)))
+  1. Create a list of the four adjacent cells around the hat, with a counter variable of the current element's counter variable + 1 i.e
+  hat location: [[3, 8, 0]] and adjacent cells [[ 2, 8, 1],[ 3, 7, 1],[ 4, 8, 1],[ 3, 9, 1]]
   2. Check all cells in each list for the following two conditions:
      1. If the position is a maze wall, remove it from the list
      2. if the position is a hole, remove it from the list
