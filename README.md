@@ -23,7 +23,7 @@ The maps are randomly generated via user input (mapHeight, mapWidth, percentageW
 
   1. Create a list of the four adjacent cells around the hat, with a counter variable of the current element's counter variable + 1 i.e
   hat location: [[3, 8, 0]] and adjacent cells [[ 2, 8, 1],[ 3, 7, 1],[ 4, 8, 1],[ 3, 9, 1]]
-  2. Check all cells in each list for the following two conditions:
+  2. Check all cells in the list for the following two conditions:
      1. If the position is a maze wall, remove it from the list
      2. if the position is a hole, remove it from the list
      3. If there is an element in the main list with the same coordinate, remove it from the cells list

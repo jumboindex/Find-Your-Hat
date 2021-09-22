@@ -17,7 +17,8 @@ class Maze {
     }
     generateMap (height = 4, width = 4, percentageHoleCoverage = 50) {
         
-        if (percentageHoleCoverage > 50 || percentageHoleCoverage <= 0) return console.log('Error: the map generated contains either too many or not enough holes.');
+        if (percentageHoleCoverage > 51 || percentageHoleCoverage <= 0) throw new Error('the map generated contains either too many or not enough holes.');
+        if (height < 1 || width < 1) throw new Error('the map generated is not playable');
         
         // store width and height for map validation
         this.width = width;
@@ -70,7 +71,8 @@ class Maze {
 
             } while  (hatPlaced = false);
         // store map for map validation
-        this.map = newMaze;    
+        this.map = newMaze;
+ 
         return newMaze;
     }
 

@@ -1,5 +1,24 @@
 {
   "dependencies": {
+    "mocha": "^9.1.1",
     "prompt-sync": "^4.2.0"
-  }
+  },
+  "name": "find_your_hat",
+  "description": "- [Find Your Hat - terminal game](#find-your-hat---terminal-game)\r   - [Table of contents](#table-of-contents)\r   - [General info](#general-info)\r   - [Technologies](#technologies)\r   - [Setup](#setup)\r   - [To-do list](#to-do-list)\r   - [Status](#status)",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jumboindex/Find-Your-Hat.git"
+  },
+  "author": "James Ball",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jumboindex/Find-Your-Hat/issues"
+  },
+  "homepage": "https://github.com/jumboindex/Find-Your-Hat#readme"
 }

@@ -156,7 +156,13 @@ class Field {
         // map generation and validation loop
         let mapValid = false;
         do  {
-            this.map = maze.generateMap(newMapParams[0], newMapParams[1], newMapParams[2]);
+            try {
+                this.map = maze.generateMap(newMapParams[0], newMapParams[1], newMapParams[2]);
+            } catch (err) {
+                console.log(err);
+                console.log('invalid parameters entered, try again!');
+                this.playGame();
+            }
             mapValid = maze.validateMap();
         } while (mapValid === false);
         
@@ -171,7 +177,6 @@ class Field {
                 this.clearConsole();
                 } while (!this.win)
             } else process.exit();
-        
     }     
 
 };
