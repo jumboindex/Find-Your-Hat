@@ -17,7 +17,7 @@ class Maze {
     }
     generateMap (height = 4, width = 4, percentageHoleCoverage = 50) {
         
-        if (percentageHoleCoverage > 51 || percentageHoleCoverage <= 0) throw new Error('the map generated contains either too many or not enough holes.');
+        if (percentageHoleCoverage > 50 || percentageHoleCoverage <= 0) throw new Error('the map generated contains either too many or not enough holes.');
         if (height < 1 || width < 1) throw new Error('the map generated is not playable');
         
         // store width and height for map validation
@@ -128,7 +128,7 @@ class Maze {
 
         let queue = this.queue;
         let map = this.map;
-        // print 
+        // add path characters to map from queue and print each time map is updated
         for (let i = 1; i < queue.length; i++ ){
                 console.clear();
                 let y = queue[i][0];

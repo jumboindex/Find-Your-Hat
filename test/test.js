@@ -49,17 +49,37 @@ describe('Maze object', () => {
             // test
             assert.strictEqual(result[0].length, expectedResultWidth);
         })
-        it('should reject a percentage hole coverage value less then 0', () => {
+        it('should reject a percentage hole coverage value < 0', () => {
                 // setup
-                const expectedResult = new Error('the map generated contains either too many or not enough holes.')
                 const width = 20
                 const height = 20
                 const percentageHoleCoverage = 0 
-                // exercise
-                const result = maze.generateMap(height, width, percentageHoleCoverage);
-                // test
-                assert.throws(()=>{result}, Error, 'the map generated contains either too many or not enough holes.' );
+                //exercise
+                assert.throws(()=>{maze.generateMap(height, width, percentageHoleCoverage)}, Error);
         })
-        
-    })
+        it('should reject a percentage hole coverage value > 50', ()=> {
+                // setup
+                const width = 20
+                const height = 20
+                const percentageHoleCoverage = 51 
+                //exercise
+                assert.throws(()=>{maze.generateMap(height, width, percentageHoleCoverage)}, Error);
+                })
+        it('should reject a height value < 0 ', () => {
+                // setup
+                let width = 20
+                let height = 0
+                const percentageHoleCoverage = 20 // default setting 
+                // exercise 
+                assert.throws(()=>{maze.generateMap(height, width, percentageHoleCoverage)}, Error);
+        })
+        it('should reject a width value < 0 ', () => {
+            // setup
+            let width = 0
+            let height = 20
+            const percentageHoleCoverage = 20 // default setting 
+            // exercise 
+            assert.throws(()=>{maze.generateMap(height, width, percentageHoleCoverage)}, Error);
+        })
+    })            
 })
