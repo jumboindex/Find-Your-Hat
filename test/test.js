@@ -82,4 +82,4 @@ describe('Maze object', () => {
             assert.throws(()=>{maze.generateMap(height, width, percentageHoleCoverage)}, Error);
         })
     })            
-})
+})   

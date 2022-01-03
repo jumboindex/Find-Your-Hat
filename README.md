@@ -19,6 +19,8 @@ This is simple terminal game where the objective is to navigate a maze and find 
 - fieldCharacter = '░' // navigable space.
 - pathCharacter = '*' // represents path taken throughout the maze.
 
+![findMyHat maze](findMyHat.PNG)
+
 The maps are randomly generated via user input (mapHeight, mapWidth, percentageWholeCoverage) and are navigated using w, a, s, d. Maps are validated using a path finding algorithm which follows the steps listed below:
 
   1. Create a list of the four adjacent cells around the hat, with a counter variable of the current element's counter variable + 1 i.e
